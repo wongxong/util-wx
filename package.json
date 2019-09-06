@@ -1,6 +1,6 @@
 {
   "name": "@wongxong/util-wx",
-  "version": "1.0.0",
+  "version": "1.0.1",
   "description": "常用的工具函数",
   "main": "src/main.js",
   "scripts": {
