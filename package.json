@@ -2,7 +2,7 @@
   "name": "@wongxong/util-wx",
   "version": "1.0.0",
   "description": "常用的工具函数",
-  "main": "main.js",
+  "main": "src/main.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
     "dev": "webpack-dev-server --inline --progress --config build/webpack.dev.conf.js",

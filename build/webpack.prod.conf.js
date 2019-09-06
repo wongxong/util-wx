@@ -27,7 +27,7 @@ module.exports = merge(baseConfig, {
 	mode: 'production',
 	devtool: false,
 	devtool: config.build.productionSourceMap ? config.build.devtool : false,
-	entry: './src/main.js',
+	entry: './src/output.js',
 	output: {
     path: config.build.assetsRoot,
     // filename: assetsPath('[name].[chunkhash].js'),
