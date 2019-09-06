@@ -1,5 +1,5 @@
 {
-  "name": "util-wx",
+  "name": "@wongxong/util-wx",
   "version": "1.0.0",
   "description": "常用的工具函数",
   "main": "main.js",
