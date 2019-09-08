@@ -5,10 +5,10 @@ export function addClass(el, clsName) {
 	if(!el || !clsName) return;
 	clsName = clsName.trim();
 	if(el.classList) {
-		el.classList.add(...clsName.split(' '));
+		el.classList.add(...clsName.split(/\s+/));
 	} else {
 		var cur = ' ' + (el.getAttribute('class') || '') + ' ';
-		clsName.split(' ').forEach(function(d) {
+		clsName.split(/\s+/).forEach(function(d) {
 			if(cur.indexOf(' ' + d + ' ') === -1) {
 				cur += d + ' ';
 			}
@@ -21,13 +21,13 @@ export function removeClass(el, clsName) {
 	if(!el || !clsName) return;
 	clsName = clsName.trim();
 	if(el.classList) {
-		el.classList.remove(...clsName.split(' '));
+		el.classList.remove(...clsName.split(/\s+/));
 		if(!el.classList.length) {
 			el.removeAttribute('class');
 		}
 	} else {
 		var cur = ' ' + (el.getAttribute('class') || '') + ' ';
-		clsName.split(' ').forEach(function(d) {
+		clsName.split(/\s+/).forEach(function(d) {
 			if(cur.indexOf(' ' + d + ' ') !== -1) {
 				cur = cur.replace(' ' + d + ' ', ' ');
 			}
@@ -119,11 +119,15 @@ export function createElement(tag, data, children) {
         return node.appendChild(createTextNode(child));
       } else if(isPlainObject(child)) {
         return node.appendChild(createElement(child.tag, child.data, child.children));
-      }
+      } else if(child instanceof Node) {
+				return node.appendChild(child);
+			}
     });
   } else if(isString(children)) {
     node.appendChild(createTextNode(children));
-  }
+  } else if(children instanceof Node) {
+		node.appendChild(children);
+	}
 
   return node;
 }
@@ -133,9 +137,7 @@ function createTextNode(txt) {
 }
 
 export function setStyle(element, styles) {
-	if(!styles) {
-		return element.removeAttribute('style');
-	}
+	if(!styles) return;
 	Object.keys(styles).forEach(function(k) {
 		var unit = '';
 		if(['width', 'height', 'left', 'right', 'top', 'bottom'].indexOf(k) !== -1 && isNumeric(styles[k])) {
@@ -143,6 +145,14 @@ export function setStyle(element, styles) {
 		}
 		element.style[k] = styles[k] + unit;
 	});
+}
+
+export function getComputedCSS(element, property) {
+	var css = window.getComputedStyle(element, null);
+	if(property) {
+		return css[property];
+	}
+	return css;
 }
 
 export function query(selector, container) {
@@ -181,4 +191,13 @@ export function offset(el, container) {
 		left: left,
 		top: top
 	};
+}
+
+export function getOffsetParent(element) {
+	var offsetParent = element.offsetParent;
+	return (
+		offsetParent === window.document.body || !offsetParent 
+			? window.document.documentElement 
+			: offsetParent
+	)
 }

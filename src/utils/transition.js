@@ -1,5 +1,5 @@
 import { cached, once, isFunction, isObject, isPlainObject, isString } from './index';
-import { on, off, addClass, removeClass } from './dom';
+import { on, off, addClass, removeClass, getComputedCSS } from './dom';
 import extend from './extend';
 
 var autoCssTransition = cached(function(name) {
@@ -31,7 +31,8 @@ function resolveTransition(data) {
 
 
 export var inBrowser = !!window;
-export var isIE9 = inBrowser && window.navigator.userAgent.toUpperCase().indexOf('MSIE 9.0') !== -1;
+export var isIE9 = inBrowser && window.navigator.userAgent.indexOf('MSIE 9.0') !== -1;
+export var isIE = inBrowser && window.navigator.userAgent.indexOf('MSIE') !== -1;
 export var hasTransition = inBrowser && !isIE9;
 var TRANSITION = 'transition';
 var ANIMATION = 'animation';
@@ -99,7 +100,7 @@ export function whenTransitionEnds(el, expectedType, cb) {
 var transformRE = /\b(transform|all)(,|$)/;
 
 function getTransitionInfo(el, expectedType) {
-	var styles = window.getComputedStyle(el);
+	var styles = getComputedCSS(el);
 	// JSDOM may return undefined for transition properties
 	var transitionDelays = (styles[transitionProp + 'Delay'] || '').split(', ');
 	var transitionDurations = (styles[transitionProp + 'Duration'] || '').split(', ');
