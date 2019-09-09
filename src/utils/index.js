@@ -47,8 +47,8 @@ export function isFunction(fn) {
 export const guid = (function() {
   var t = new Date().getTime();
   var uid = 0;
-  return function() {
-    return 'guid_' + (t + uid++).toString(16);
+  return function(prefix) {
+    return (prefix != null ? prefix : '') + (t + uid++).toString(16);
   }
 })();
 

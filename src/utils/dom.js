@@ -160,7 +160,7 @@ export function query(selector, container) {
 }
 
 export function queryAll(selector, container) {
-	return (container || document).querySelectorAll(selector);
+	return [].slice.call((container || document).querySelectorAll(selector));
 }
 
 export function insertBefore(node, reference) {
